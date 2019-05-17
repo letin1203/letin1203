@@ -1,9 +1,24 @@
-var express = require('express');
+const express = require("express");
+const fetch = require('node-fetch');
+
 var port = process.env.PORT || 3000;
-var app = express();
-app.get('/', function (req, res) {
- res.send(JSON.stringify({ Hello: 'World'}));
+
+/* Express */
+const app = express();
+
+app.get("/getData", (req, res) => {
+    var url = 'https://www.gosugamers.net/dota2';
+    fetch(url).then(function(res) {
+        return res.text();
+    }).then(function(html) {
+        return res.json({ success: true, data: html });
+    });
 });
+
+app.get("/", (req, res) => {
+    res.send("Hey");
+});
+
 app.listen(port, function () {
- console.log(`Example app listening on port !`);
+    console.log(`Example app listening on port !`);
 });
